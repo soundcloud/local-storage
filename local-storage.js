@@ -1,8 +1,12 @@
 'use strict';
 
-var stub = require('./stub');
+var ls = (function (stub) {
+  try {
+    if ('localStorage' in global && global.localStorage) return global.localStorage;
+  } catch (e) {}
+  return stub;
+})(require('./stub'));
 var tracking = require('./tracking');
-var ls = 'localStorage' in global && global.localStorage ? global.localStorage : stub;
 
 function accessor (key, value) {
   if (arguments.length === 1) {
